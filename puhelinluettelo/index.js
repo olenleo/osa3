@@ -2,7 +2,11 @@ const express = require('express')
 const morgan = require('morgan')
 const app = express()
 app.use(express.json())
-app.use(morgan('tiny'))
+// Create token for converting result body into JSON string
+morgan.token('json-content', (req, res) => JSON.stringify(req.body));
+// Use morgan the necessary elements
+app.use(morgan(':method :url [:status] :response-time :json-content'))
+
 let persons = [
   {
     id: 1,
@@ -83,6 +87,7 @@ app.post('/api/persons/', (request, response) => {
   persons = persons.concat(person)
   response.json(person)
   })
+
 
 const port = 3001
 app.listen(port)
