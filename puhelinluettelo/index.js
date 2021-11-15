@@ -1,11 +1,17 @@
 const express = require('express')
 const morgan = require('morgan')
+const cors = require('cors')
 const app = express()
+
 app.use(express.json())
+
 // Create token for converting result body into JSON string
 morgan.token('json-content', (req, res) => JSON.stringify(req.body));
 // Use morgan the necessary elements
 app.use(morgan(':method :url [:status] :response-time :json-content'))
+
+
+app.use(cors())
 
 let persons = [
   {
@@ -37,7 +43,8 @@ function getRandomInt(max) {
 }
 
 app.get('/', (req, res) => {
-    res.send('<h1>osote puuttuu</h1>')
+    console.log('TULI PYYNTÖÖ ')
+    persons.find({}).then(result => res.json(result))
 })
 
 app.get('/info/', (req, res) => {
@@ -88,7 +95,7 @@ app.post('/api/persons/', (request, response) => {
   response.json(person)
   })
 
-
-const port = 3001
-app.listen(port)
-console.log(`Server running on port ${port}`)
+  const PORT = process.env.PORT || 3001
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`)
+  })

@@ -23,7 +23,7 @@ const App = () => {
   }, [])
 
   const showNotification = () => {
-    console.log('Klick')
+    
     setTimeout(() => {
       setNotificationMessage(null)
       setNotificationType(null)
