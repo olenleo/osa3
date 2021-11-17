@@ -2,7 +2,7 @@ const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
 const app = express()
-
+app.use(express.static('build'))
 app.use(express.json())
 
 // Create token for converting result body into JSON string
@@ -42,9 +42,12 @@ function getRandomInt(max) {
     return Math.floor(Math.random() * max);
 }
 
-app.get('/', (req, res) => {
+app.get('/api/persons/', (req, res) => {
     console.log('TULI PYYNTÖÖ ')
-    persons.find({}).then(result => res.json(result))
+    let data = []
+    persons.forEach(p => data.push(p))
+    console.log('DATA', data)
+    res.send(data)
 })
 
 app.get('/info/', (req, res) => {
@@ -73,16 +76,11 @@ app.delete('/api/persons/:id', (request, response) => {
 app.post('/api/persons/', (request, response) => {
   const person = request.body
   console.log(person)
-  if (!person.name) {
+  if (!person.name || !person.number) {
     return response.status(400).json({ 
-    error: 'name missing' 
-  }
-  ) 
-} else if (!person.number) {
-  return response.status(400).json({ 
-    error: 'number missing' 
+    error: 'name unt number missing' 
   })
-}
+  }
   (persons.forEach(p => {
     if (p.name == person.name) {
       return response.status(400).json({
@@ -95,6 +93,12 @@ app.post('/api/persons/', (request, response) => {
   response.json(person)
   })
 
+app.put('/api/persons/:id', (request, response) => {
+  const id = Number(request.params.id)
+  const person = request.body
+  console.log(person)
+  response.json(person)
+})
   const PORT = process.env.PORT || 3001
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
