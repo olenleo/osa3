@@ -45,7 +45,7 @@ function getRandomInt(max) {
 app.get('/', (req,res) => {
   console.log('Request to root arrived')
   res.send('<p>Hello</p>')
-}
+})
 
 app.get('/api/persons/', (req, res) => {
     console.log('TULI PYYNTÖÖ ')
