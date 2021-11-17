@@ -9,6 +9,7 @@
     "dev": "nodemon index.js",
     "deploy": "git push heroku main",
     "deploy:full": "cd ../../osa2/puhelinluettelo/ && npm run build:ui && cd ../../osa3/puhelinluettelo/ && git add . && git commit -m uibuild && git push && npm run deploy",
+    "dev:ui": "cd ../../osa2/puhelinluettelo/ && npm run build:ui && cd ../../osa3/puhelinluettelo/ && npm run dev",
     "logs:prod": "heroku logs --tail"
   },
   "author": "Leo Niemi",

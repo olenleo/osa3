@@ -23,7 +23,6 @@ let persons = [
     id: 2,
     name: "Lefa",
     number: 124214
-    
   },
   {
     id: 3,
@@ -42,10 +41,9 @@ function getRandomInt(max) {
     return Math.floor(Math.random() * max);
 }
 
-
-
 app.get('/', (req,res) => {
   res.send('<h1>Tervetuloa</h1>')
+
 })
 
 app.get('/api/persons/', (req, res) => {
