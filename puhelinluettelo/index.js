@@ -44,6 +44,10 @@ function getRandomInt(max) {
 
 
 
+app.get('/', (req,res) => {
+  res.send('<h1>Tervetuloa</h1>')
+})
+
 app.get('/api/persons/', (req, res) => {
     console.log('TULI PYYNTÖÖ ')
     let data = []
