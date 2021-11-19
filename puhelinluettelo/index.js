@@ -47,7 +47,7 @@ app.get('/', (req,res) => {
 })
 
 app.get('/api/persons/', (req, res) => {
-    console.log('TULI PYYNTÖÖ ')
+    console.log('TULI PYYNTÖÖ')
     let data = []
     persons.forEach(p => data.push(p))
     console.log('DATA', data)
