@@ -13,7 +13,7 @@ const morgan = require('morgan')
 morgan.token('json-content', (req, res) => JSON.stringify(req.body));
 app.use(morgan(':method :url [:status] :response-time :json-content'))
 
-
+let numberOfPersons = 0
 
 app.post('/api/persons', (req, res, next) => {
   const body = req.body
@@ -38,21 +38,23 @@ app.post('/api/persons', (req, res, next) => {
 })
 
 app.get('/', (req,res) => {
-  res.send('<h1>Tervetuloa</h1>')
-
+  res.redirect('/api/persons/');
 })
 
 app.get('/api/persons/', (req, res) => {
     Person.find({}).then(persons => {
-      res.json(persons)
+      res.json(persons), numberOfPersons = persons.length
     })
     
 })
 
 app.get('/info/', (req, res) => {
-   // const num = persons.length
-   // const date = new Date().toISOString()
-    res.send(`<p>Infoa.</p>`)
+    Person.find({}).then(persons => {
+      numberOfPersons = persons.length
+    })
+
+    res.send(`<p>Phonebook contains ${numberOfPersons} objects.</p>
+    <p>${Date().toString()}</p>`)
 })
 
 app.get('/api/persons/:id', (request, response) => {
