@@ -1,41 +1,19 @@
+require('dotenv').config()
 const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
+const mongoose = require('mongoose')
+const { response } = require('express')
 const app = express()
+const Person = require('./models/person')
 app.use(express.static('build'))
 app.use(express.json())
-
-// Create token for converting result body into JSON string
+app.use(cors())
 morgan.token('json-content', (req, res) => JSON.stringify(req.body));
-// Use morgan the necessary elements
 app.use(morgan(':method :url [:status] :response-time :json-content'))
 
-
-app.use(cors())
-
-let persons = [
-  {
-    id: 1,
-    name: "Artsi",
-    number: 333515525
-  },
-  {
-    id: 2,
-    name: "Lefa",
-    number: 124214
-  },
-  {
-    id: 3,
-    name: "Tina",
-    number: 555214252
-  }
-  ,
-  {
-    id: 4,
-    name: "Patrick",
-    number: 401234567
-  }
-]
+const PORT = process.env.PORT
+console.log('PORT @ ', PORT)
 
 function getRandomInt(max) {
     return Math.floor(Math.random() * max);
@@ -47,17 +25,17 @@ app.get('/', (req,res) => {
 })
 
 app.get('/api/persons/', (req, res) => {
-    console.log('TULI PYYNTÖÖ')
-    let data = []
-    persons.forEach(p => data.push(p))
-    console.log('DATA', data)
-    res.send(data)
+  console.log('Olet tässä')  
+    Person.find({}).then(persons => {
+      res.json(persons)
+    })
+    
 })
 
 app.get('/info/', (req, res) => {
-    const num = persons.length
-    const date = new Date().toISOString()
-    res.send(`<p>Phonebook has info for ${num} people </p><p>${date}`)
+   // const num = persons.length
+   // const date = new Date().toISOString()
+    res.send(`<p>hey bb </p>`)
 })
 
 app.get('/api/persons/:id', (request, response) => {
@@ -103,7 +81,7 @@ app.put('/api/persons/:id', (request, response) => {
   console.log(person)
   response.json(person)
 })
-  const PORT = process.env.PORT || 3001
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`)
-  })
+
+app.listen(PORT, () => {
+  console.log(`SERVER running on port ${PORT}`)  
+})
