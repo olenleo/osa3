@@ -9,6 +9,7 @@ app.use(cors())
 app.use(express.json())
 
 const morgan = require('morgan')
+const { response } = require('express')
 
 morgan.token('json-content', (req, res) => JSON.stringify(req.body));
 app.use(morgan(':method :url [:status] :response-time :json-content'))
@@ -31,8 +32,11 @@ app.post('/api/persons', (req, res, next) => {
 
   console.log(person)
 
-  person.save().then(savedPerson => {
-      res.json(savedPerson.toJSON())
+  person
+    .save()
+    .then(savedPerson => savedPerson.toJSON())
+    .then(savedAndFormattedPerson => {
+    res.json(savedAndFormattedPerson)
   })
       .catch(error => next(error))
 })
@@ -99,6 +103,8 @@ const errorHandler = (error, request, response, next) => {
 
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' })
+  } else if (error.name === 'ValidationError') {
+    return response.status(400).json({ error: error.message })
   }
 
   next(error)
