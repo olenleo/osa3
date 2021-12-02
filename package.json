@@ -13,7 +13,8 @@
     "deploy": "git push heroku main",
     "deploy:full": "cd ../osa2/puhelinluettelo/ && npm run build:ui && cd ../../osa3/ && git add . && git commit -m uibuild && git push && npm run deploy",
     "dev:ui": "cd ../osa2/puhelinluettelo/ && npm run build:ui && cd ../../osa3/ && npm run dev",
-    "logs:prod": "heroku logs --tail"
+    "logs:prod": "heroku logs --tail",
+    "lint": "eslint ."
   },
   "author": "Leo Niemi",
   "license": "ISC",
@@ -32,6 +33,7 @@
     "react-scripts": "^3.4.4"
   },
   "devDependencies": {
+    "eslint": "^6.8.0",
     "nodemon": "^2.0.15"
   },
   "browserslist": {
